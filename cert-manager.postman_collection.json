@@ -1,0 +1,270 @@
+{
+    "info": {
+        "name": "cert-manager API",
+        "_postman_id": "b2f7d1b8-7c1e-4c89-9f7b-collection",
+        "description": "Postman 集合：Certificate & CA Manager Service",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+        "version": "1.0.0"
+    },
+    "auth": {
+        "type": "apikey",
+        "apikey": [
+            {
+                "key": "key",
+                "value": "X-API-Key",
+                "type": "string"
+            },
+            {
+                "key": "value",
+                "value": "{{apiKey}}",
+                "type": "string"
+            },
+            {
+                "key": "in",
+                "value": "header",
+                "type": "string"
+            }
+        ]
+    },
+    "variable": [
+        {
+            "key": "baseUrl",
+            "value": "http://localhost:3000"
+        },
+        {
+            "key": "apiKey",
+            "value": ""
+        },
+        {
+            "key": "certId",
+            "value": ""
+        }
+    ],
+    "item": [
+        {
+            "name": "Health",
+            "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                    "raw": "{{baseUrl}}/api/v1/health",
+                    "host": [
+                        "{{baseUrl}}"
+                    ],
+                    "path": [
+                        "api",
+                        "v1",
+                        "health"
+                    ]
+                }
+            },
+            "event": [
+                {
+                    "listen": "test",
+                    "script": {
+                        "type": "text/javascript",
+                        "exec": [
+                            "pm.test(\"Status code is 200\", function () {",
+                            "  pm.response.to.have.status(200);",
+                            "});"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Certificates",
+            "item": [
+                {
+                    "name": "Create Certificate",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"name\": \"example-client\",\n  \"type\": \"client\",\n  \"cert\": \"-----BEGIN CERTIFICATE-----\\n...\\n-----END CERTIFICATE-----\\n\",\n  \"key\": \"-----BEGIN PRIVATE KEY-----\\n...\\n-----END PRIVATE KEY-----\\n\",\n  \"ca\": \"-----BEGIN CERTIFICATE-----\\n...CA chain...\\n-----END CERTIFICATE-----\\n\",\n  \"expiresAt\": \"2027-01-01T00:00:00Z\",\n  \"subject\": \"CN=example-client\",\n  \"issuer\": \"CN=example-ca\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/v1/certs",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "certs"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "List Certificates",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/v1/certs",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "certs"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Get Certificate by ID",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/v1/certs/{{certId}}",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "certs",
+                                "{{certId}}"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Update Certificate",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"cert\": \"-----BEGIN CERTIFICATE-----\\n...updated...\\n-----END CERTIFICATE-----\\n\",\n  \"ca\": \"-----BEGIN CERTIFICATE-----\\n...updated CA...\\n-----END CERTIFICATE-----\\n\",\n  \"expiresAt\": \"2028-01-01T00:00:00Z\",\n  \"subject\": \"CN=example-client-updated\",\n  \"issuer\": \"CN=example-ca\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/v1/certs/{{certId}}",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "certs",
+                                "{{certId}}"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Delete Certificate",
+                    "request": {
+                        "method": "DELETE",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/v1/certs/{{certId}}",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "certs",
+                                "{{certId}}"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Download Certificate (PEM)",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/v1/certs/{{certId}}/download?file=cert",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "certs",
+                                "{{certId}}",
+                                "download"
+                            ],
+                            "query": [
+                                {
+                                    "key": "file",
+                                    "value": "cert"
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Download Private Key",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/v1/certs/{{certId}}/download?file=key",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "certs",
+                                "{{certId}}",
+                                "download"
+                            ],
+                            "query": [
+                                {
+                                    "key": "file",
+                                    "value": "key"
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Download CA Chain",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/v1/certs/{{certId}}/download?file=ca",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "certs",
+                                "{{certId}}",
+                                "download"
+                            ],
+                            "query": [
+                                {
+                                    "key": "file",
+                                    "value": "ca"
+                                }
+                            ]
+                        }
+                    }
+                }
+            ]
+        }
+    ]
+}

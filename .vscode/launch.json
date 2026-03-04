@@ -1,0 +1,70 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "pwa-node",
+      "request": "launch",
+      "name": "Launch: cert-manager (Node/tsx)",
+      "skipFiles": [
+        "<node_internals>/**"
+      ],
+      "program": "${workspaceFolder}/src/index.ts",
+      "runtimeExecutable": "node",
+      "runtimeArgs": [
+        "--import",
+        "tsx"
+      ],
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen",
+      "sourceMaps": true,
+      "smartStep": true
+    },
+    {
+      "type": "pwa-node",
+      "request": "launch",
+      "name": "Launch: cert-manager (Bun, break on start)",
+      "program": "${workspaceFolder}/src/index.ts",
+      "runtimeExecutable": "bun",
+      "runtimeArgs": [
+        "--inspect-brk=localhost:9229"
+      ],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen",
+      "skipFiles": [
+        "<node_internals>/**"
+      ],
+      "sourceMaps": true,
+      "smartStep": true
+    },
+    {
+      "type": "pwa-node",
+      "request": "launch",
+      "name": "Launch: cert-manager (Bun)",
+      "program": "${workspaceFolder}/src/index.ts",
+      "runtimeExecutable": "bun",
+      "runtimeArgs": [
+        "--inspect=localhost:9229"
+      ],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen",
+      "skipFiles": [
+        "<node_internals>/**"
+      ],
+      "sourceMaps": true,
+      "smartStep": true
+    },
+    {
+      "type": "pwa-node",
+      "request": "attach",
+      "name": "Attach: Bun (9229)",
+      "port": 9229,
+      "address": "localhost",
+      "restart": true,
+      "continueOnAttach": true,
+      "sourceMaps": true,
+      "cwd": "${workspaceFolder}"
+    }
+  ]
+}
