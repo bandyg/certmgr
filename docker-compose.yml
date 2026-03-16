@@ -1,0 +1,62 @@
+version: '3.8'
+
+services:
+  cert-manager:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: cert-manager:latest
+    container_name: cert-manager
+    restart: unless-stopped
+    
+    ports:
+      - "3111:3111"
+    
+    volumes:
+      # Certificate storage (persistent)
+      - cert-storage:/var/lib/cert-manager
+      # Configuration file
+      - ./config.yaml:/app/config.yaml:ro
+      # Audit logs (optional: mount to host for easier access)
+      - ./logs:/var/lib/cert-manager/audit
+    
+    environment:
+      - NODE_ENV=production
+      # API Key (override in production)
+      - API_KEY=${API_KEY:-change-me-in-production}
+      # CA Server Configuration
+      - CA_SERVER_URL=${CA_SERVER_URL:-https://ca-server.example.com}
+      - CA_API_KEY=${CA_API_KEY:-change-me}
+      - PFX_PASSWORD=${PFX_PASSWORD:-change-me}
+    
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3111/api/v1/ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    
+    # Security options
+    security_opt:
+      - no-new-privileges:true
+    
+    # Resource limits
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 512M
+        reservations:
+          cpus: '0.25'
+          memory: 128M
+    
+    # Logging
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+volumes:
+  cert-storage:
+    driver: local

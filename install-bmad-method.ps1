@@ -1,0 +1,1 @@
+npx bmad-method install

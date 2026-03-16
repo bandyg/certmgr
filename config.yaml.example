@@ -1,0 +1,61 @@
+# cert-manager Configuration Example
+# Copy this file to config.yaml and customize for your environment
+
+# Server Configuration
+server:
+  # Bind address (0.0.0.0 for all interfaces, 127.0.0.1 for localhost only)
+  host: "0.0.0.0"
+  
+  # Server port
+  port: 3111
+  
+  # API Key for authentication (use environment variable in production)
+  # Generate with: openssl rand -hex 32
+  apiKey: "${API_KEY}"
+
+# CA Server Configuration
+caServer:
+  # CA Server URL (must use HTTPS in production)
+  url: "${CA_SERVER_URL}"
+  
+  # Authentication type: api-key or certificate
+  authType: "api-key"
+  
+  # API Key for CA Server
+  apiKey: "${CA_API_KEY}"
+  
+  # Request timeout in milliseconds
+  timeout: 30000
+  
+  # PFX decryption password
+  password: "${PFX_PASSWORD}"
+
+# Scheduler Configuration
+scheduler:
+  # Daily check time (24-hour format)
+  dailyCheckTime: "09:00"
+  
+  # Enable/disable scheduler
+  enabled: true
+
+# Storage Configuration
+storage:
+  # Base storage path
+  basePath: "/var/lib/cert-manager"
+  
+  # Certificates subdirectory
+  certsDir: "certs"
+  
+  # Metadata subdirectory
+  metadataDir: "metadata"
+
+# Logging Configuration
+logging:
+  # Log level: debug, info, warn, error
+  level: "info"
+  
+  # Log message pattern
+  pattern: "%d{yyyy-MM-dd hh:mm:ss.SSS} [%p] %c - %m"
+  
+  # Log file name
+  fileName: "cert-manager.log"

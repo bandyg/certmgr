@@ -3,8 +3,19 @@ server:
   port: 3111
   apiKey: "change-me-in-production"
 
+caServer:
+  url: "https://ca-server.example.com"
+  authType: "api-key"
+  apiKey: "ca-server-api-key"
+  timeout: 30000
+  password: "change-me"
+
+scheduler:
+  dailyCheckTime: "09:00"
+  enabled: true
+
 storage:
-  basePath: "/var/lib/cert-manager"
+  basePath: "./data"
   certsDir: "certs"
   metadataDir: "metadata"
 
